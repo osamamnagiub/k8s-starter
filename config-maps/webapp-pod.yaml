@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2023-11-27T19:40:58Z"
+  labels:
+    name: webapp-color
+  name: webapp-color
+  namespace: default
+  resourceVersion: "802"
+  uid: a2c53d34-73a4-4a08-811c-8c2477daf2d1
+spec:
+  containers:
+  - env:
+    - name: APP_COLOR
+      valueFrom: 
+        configMapKeyRef:
+          name: webapp-config-map
+          key: APP_COLOR
+    image: kodekloud/webapp-color
+    imagePullPolicy: Always
+    name: webapp-color

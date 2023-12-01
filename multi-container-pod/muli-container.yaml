@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: worker-app-pod
+  labels:
+    name: worker-app-pod
+    app: demo-voting-app
+spec:
+  containers:
+    - name: worker-app
+      image: kodekloud/examplevotingapp_worker:v1
+
+    - name: sidecar
+      image: kodekloud/examplevotingapp_worker:v1
+
+  # will run sequentially to completion before the main container initializes
+  initContainers:
+    - name: Dbinitializer
+      image: kodekloud/examplevotingapp_worker:v1
+
+    - name: cache populator
+      image: redis
