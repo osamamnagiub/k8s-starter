@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: aggregation job
+spec:
+  jobTemplate:
+    spec:
+      completions: 3
+      parallelism: 3
+      template:
+        spec:
+          containers:
+            - name: nginx
+              image: nginx
+
+          restartPolicy: Never
+  schedule: "*/1 * * * *"
