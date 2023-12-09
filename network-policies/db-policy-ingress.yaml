@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+
+  policyTypes:
+    - "ingress"
+  ingress:
+    - from:
+        # first rule (and operator)
+        - podSelector:
+            matchLabels:
+              name: api-pod
+          namespaceSelector:
+            matchLabels:
+              name: prod # must be set on the namespace, to only allow the api pod in the prod namespace to send traffic to the db
+        
+        # or operator (different rules)
+        # - podSelector:
+        #     matchLabels:
+        #       name: api-pod
+
+        # - namespaceSelector:
+        #     matchLabels:
+        #       name: prod
+
+
+        # second rule
+        - ipBlock:
+            cidr: 192.168.5.10/32 # to allow traffic from an ip address range
+      ports:
+        - protocol: tcp
+          port: 3306
